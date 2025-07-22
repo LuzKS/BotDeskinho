@@ -8,12 +8,18 @@ load_dotenv()  # Carrega variáveis do .env
 discord_token = os.getenv('DISCORD_TOKEN')
 
 
-intents = discord.Intents.all() #permissções do discord
+intents = discord.Intents.all() #permissoes do discord
 bot = commands.Bot("/", intents=intents) #contem todas as informações do bot
 
 
+@bot.event
+async def on_ready():
+    sincs = await bot.tree.sync()
+    print(f'{len(sincs)} comandos(s) sincronizado(s)')
+
+
 @bot.command()
-async def teste(ctx:commands.Context, *,argumento): # o * faz pegar toda a informção
+async def teste(ctx:commands.Context, *,argumento): # o * faz pegar toda a informacao
     nome = ctx.author.name
     argumento = argumento
     await ctx.reply(f"Olá, {nome}. Em que posso ajudar? '{argumento}' não é um pedido válido") #o .reply responde diretamente ao comando
@@ -38,10 +44,17 @@ async def bom_dia(ctx:commands.Context):
 
     await ctx.send(embed=mEmbed, file=imagem)
 
+
 @bot.event
 async def on_member_join(membro:discord.Member):
     canal = bot.get_channel(1397007052097978369)
     await canal.send(f'{membro.mention} bem vindo ao teste testeiro!')
+
+@bot.tree.command()
+async def vish(interact:discord.Interaction, texto:str):
+    await interact.response.send_message(f"kk, {texto}")
+
+
 
 
 bot.run(discord_token)
