@@ -13,6 +13,8 @@ load_dotenv()
 JIRA_TOKEN = os.getenv("JIRA_TOKEN")
 USER_EMAIL = os.getenv("USER_EMAIL")
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
+JIRA_REQUEST_TYPES = os.getenv("JIRA_REQUEST_TYPES")
+JIRA_API_REQUEST = os.getenv("JIRA_API_REQUEST")
 
 # Função para autenticação Jira
 def get_jira_auth_header():
@@ -26,7 +28,7 @@ def get_jira_auth_header():
 
 # Função para buscar requestTypes do Jira
 def get_request_types():
-    url = "https://testandotudo.atlassian.net/rest/servicedeskapi/servicedesk/1/requesttype"
+    url = JIRA_REQUEST_TYPES
     headers = get_jira_auth_header()
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
@@ -46,7 +48,7 @@ def get_request_types():
 
 # Função para criar um ticket no Jira
 def criar_ticket_jira(request_type_id, summary, description):
-    url = "https://testandotudo.atlassian.net/rest/servicedeskapi/request"
+    url = JIRA_API_REQUEST
     headers = get_jira_auth_header()
     payload = {
         "serviceDeskId": "1",
