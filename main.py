@@ -10,7 +10,6 @@ intents = discord.Intents.default()
 intents.message_content = True  # Permite que o bot leia o conteúdo das mensagens
 client = discord.Client(intents=intents)
 
-# A URL do seu webhook do n8n que você vai colar aqui
 WEBHOOK_URL = os.getenv("WEBHOOK_URL")
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 
@@ -27,7 +26,6 @@ async def on_message(message):
         return
 
     # Condição para disparar o webhook.
-    # Exemplo: se a mensagem for "abrir ticket"
     if message.content.lower() == "abrir ticket":
         try:
             # Envia uma requisição POST para o webhook do n8n
@@ -40,5 +38,4 @@ async def on_message(message):
         except requests.exceptions.RequestException as e:
             await message.channel.send(f"❌ Erro ao acionar o webhook: {e}")
 
-# Substitua com o token do seu bot
 client.run(DISCORD_TOKEN)
