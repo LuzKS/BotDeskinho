@@ -22,7 +22,7 @@ auth_bytes = auth_str.encode('ascii')
 base64_bytes = base64.b64encode(auth_bytes)
 base64_string = base64_bytes.decode('ascii')
 
-url = "https://testandotudo.atlassian.net/rest/servicedeskapi/servicedesk/1/requesttype"
+url = "https://servicedeskleds.atlassian.net/rest/servicedeskapi/servicedesk/1/requesttype"
 
 headers = {
     "Accept": "application/json",

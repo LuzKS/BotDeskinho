@@ -21,17 +21,24 @@ async def on_ready():
 # O evento que dispara quando uma nova mensagem é enviada
 @client.event
 async def on_message(message):
+    print(message.author)
     # Ignora mensagens do próprio bot para evitar um loop infinito
     if message.author == client.user:
         return
 
     # Condição para disparar o webhook.
-    if message.content.lower() == "abrir ticket":
+    if message.content.lower():
         try:
             # Envia uma requisição POST para o webhook do n8n
             response = requests.post(
                 WEBHOOK_URL,
-                json={"content": "Novo ticket acionado pelo Discord"}
+                json={"user": message.author.display_name,
+                        "user_id": str(message.author.id),
+                        "message": message.content,
+                        "message_id": str(message.id),
+                        "channel_id": str(message.channel.id),
+                        "server_id": str(message.guild.id) if message.guild else None
+                      }
             )
             response.raise_for_status() # Lança um erro se a requisição falhar
             await message.channel.send("Ticket acionado!")
