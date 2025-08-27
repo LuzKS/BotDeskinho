@@ -33,6 +33,7 @@ async def on_message(message):
             response = requests.post(
                 WEBHOOK_URL,
                 json={"user": message.author.display_name,
+                        "username": message.author.name,
                         "user_id": str(message.author.id),
                         "message": message.content,
                         "message_id": str(message.id),
@@ -41,7 +42,7 @@ async def on_message(message):
                       }
             )
             response.raise_for_status() # Lança um erro se a requisição falhar
-            await message.channel.send("Ticket acionado!")
+            await message.channel.send("Seu Ticket está sendo criado!")
         except requests.exceptions.RequestException as e:
             await message.channel.send(f"❌ Erro ao acionar o webhook: {e}")
 
